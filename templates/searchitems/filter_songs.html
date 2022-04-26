@@ -1,0 +1,41 @@
+{% include 'top.html' %}
+    <div class="content">
+        <h1 class="title">Filter Songs</h1>
+        <form class="Filter" method = "POST" action="{{url_for('filter_songs')}}">
+
+            Artist Name: <input type="text" name="artist_name" value="None" placeholder="Artist Name">
+            <br/>
+            Length of Song (in minutes):
+            <select name="Comparator" id="compare">
+                <option value="greater than">greater than</option>
+                <option value="less than">less than</option>
+                <option value="greater than or equal to">greater than or equal to</option>
+                <option value="less than or equal to">less than or equal to</option>
+                <option value="equal to">equal to</option>
+              </select>
+             <input type="text" name="length" value="0" placeholder="0">
+            <br/>
+            <br/>  <br/>
+            <button class="flat" type="submit">Filter</button>
+            <br/>   <br/>
+        </form>
+            {% if songs | length > 0 %}
+                <table class="styled">
+                    <thead>
+                        <tr>
+                            <td>Song ID</td>
+                            <td>Song Title</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instance in songs %}
+                            <tr class="clickable-tr" data-href="{{ url_for('single_song', song_id=instance.song_id)}}">
+                                <td style="text-align: center">{{ instance.song_id }}</td>
+                                <td>{{instance.song_title}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+    </div>
+{% include 'bottom.html'%}

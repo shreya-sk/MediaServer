@@ -1,0 +1,148 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+
+        <!--  Example of a table with clickable rows:
+        <table class="styled">
+                    <thead>
+                        <tr>
+                            <td>Column 1 Heading - Usually an ID </td>
+                            <td>Column 2 Heading</td>
+                                      .
+                                      .
+                                      .
+                            <td>Column n Heading</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instance in some_input_array %}
+                        <tr class="clickable-tr" data-href="{{ url_for('single_item_target', target_id=instance.single_item_target_id)}}">
+                            <td style="text-align: center">{{ instance.single_item_target_id }}</td>
+                            <td>{{instance.item_corresponding_to_column_2}}</td>
+                                      .
+                                      .
+                                      .
+                            <td>{{instance.item_corresponding_to_column_n}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        -->
+        <!-- TODO Query (10) -->
+        <!-- First check should be a valid instance -->
+        <!-- Second check should be what type of genre? -->
+        {% if instance | length > 0 %}
+
+        {% if instance[0].md_type_name == 'film genre'%}
+
+          <center> <h2 class="title"> Genre: {{genre}}</h2></center>
+          <center><h3> Genre ID: {{id}}</h3> </center>
+
+         <h3> TV Shows</h3>
+       <table class="styled" style="text-align:center;border: 2px solid black;">
+           <thead>
+               <tr>
+                    <td style="border: 1px groove black;">TV Show ID</td>
+                     <td style="border: 1px groove black;">TV Show Name</td>
+
+               </tr>
+           </thead>
+           <tbody>
+               {% for i in instance2 %}
+                   <!-- Each row is a link to each individual song page -->
+            <tr class="clickable-tr" data-href="{{ url_for('single_tvshow', tvshow_id=i.tvshow_id)}}">
+                        <td style="border: 1px groove black;">{{ i.tvshow_id }}</td>
+
+                         <td style="border: 1px groove black;">{{i.tvshow_title}}</td>
+                   </tr>
+               {% endfor %}
+           </tbody>
+
+       </table>
+       <br/>
+       <h3> Movies</h3>
+     <table class="styled" style="text-align:center;border: 2px solid black;">
+         <thead>
+             <tr>
+                   <td style="border: 1px groove black;">Movie ID</td>
+                  <td style="border: 1px groove black;">Movie Name</td>
+
+             </tr>
+         </thead>
+         <tbody>
+             {% for i in instance %}
+                 <!-- Each row is a link to each individual song page -->
+                  <tr class="clickable-tr" data-href="{{ url_for('single_movie', movie_id=i.movie_id)}}">
+                      <td style="border: 1px groove black;">{{ i.media_id }}</td>
+
+                      <td style="border: 1px groove black;">{{i.movie_title}}</td>
+                 </tr>
+             {% endfor %}
+         </tbody>
+
+     </table>
+         {% endif %}
+
+
+       {% if instance[0].md_type_name == 'song genre'%}
+
+       <center> <h2 class="title"> Genre: {{genre}}</h2></center>
+       <center><h3> Genre ID: {{id}}</h3> </center>
+
+        <table class="styled" style="text-align:center;border: 2px solid black;">
+            <thead>
+                <tr>
+                      <td style="border: 1px groove black;">Song ID</td>
+                      <td style="border: 1px groove black;">Song Name</td>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in instance %}
+                    <!-- Each row is a link to each individual song page -->
+                    <tr class="clickable-tr" data-href="{{ url_for('single_song', song_id=i.media_id)}}">
+                        <td style="border: 1px groove black;">{{ i.media_id }}</td>
+
+                          <td style="border: 1px groove black;">{{i.song_title}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+        {% endif %}
+
+        {% if instance[0].md_type_name == 'podcast genre'%}
+
+        <center> <h2 class="title"> Genre: {{genre}}</h2></center>
+        <center><h3> Genre ID: {{id}}</h3> </center>
+
+         <table class="styled" style="text-align:center;border: 2px solid black;">
+             <thead>
+                 <tr>
+                        <td style="border: 1px groove black;">Podcast ID</td>
+                    <td style="border: 1px groove black;"> Podcast Name</td>
+
+                 </tr>
+             </thead>
+             <tbody>
+                 {% for i in instance %}
+                     <!-- Each row is a link to each individual song page -->
+                      <tr class="clickable-tr" data-href="{{ url_for('single_podcast', podcast_id=i.podcast_id)}}">
+                         <td style="text-align: center">{{ i.media_id }}</td>
+
+                          <td style="border: 1px groove black;">{{i.podcast_title}}</td>
+                     </tr>
+                 {% endfor %}
+             </tbody>
+
+         </table>
+         {% endif %}
+
+
+
+        {% else %}
+            <h2 class="title"> Invalid Genre ID</h2>
+      {%endif%}
+    </div>
+</div>
+{% include 'bottom.html'%}

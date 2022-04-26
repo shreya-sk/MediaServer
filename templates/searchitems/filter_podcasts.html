@@ -1,0 +1,48 @@
+{% include 'top.html' %}
+<div class="content">
+    <h1 class="title">Filter Podcasts</h1>
+    <form class="Filter" method = "POST" action="{{url_for('filter_podcasts')}}">
+        Number of Episodes:
+        <select name="count" id="count">
+            <option value="greater than">greater than</option>
+            <option value="less than">less than</option>
+            <option value="greater than or equal to">greater than or equal to</option>
+            <option value="less than or equal to">less than or equal to</option>
+            <option value="equal to">equal to</option>
+          </select>
+         <input type="number" name="countEp" value="0" placeholder="0">
+        <br/><br/>
+        Podcast last updated (year):
+        <select name="Comparator" id="compare">
+            <option value="greater than">greater than</option>
+            <option value="less than">less than</option>
+            <option value="greater than or equal to">greater than or equal to</option>
+            <option value="less than or equal to">less than or equal to</option>
+            <option value="equal to">equal to</option>
+          </select>
+         <input type="text" name="last_updated" value="0" placeholder="0">
+        <br/>
+        <br/>  <br/>
+        <button class="flat" type="submit">Filter</button>
+        <br/>   <br/>
+        </form>
+            {% if podcasts | length > 0 %}
+                <table class="styled">
+                    <thead>
+                        <tr>
+                            <td>Podcast ID</td>
+                            <td>Podcast Title</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instance in podcasts %}
+                            <tr class="clickable-tr" data-href="{{ url_for('single_podcast', podcast_id=instance.podcast_id)}}">
+                                <td style="text-align: center">{{ instance.podcast_id }}</td>
+                                <td>{{instance.podcast_title}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+    </div>
+{% include 'bottom.html'%}

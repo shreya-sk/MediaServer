@@ -1,0 +1,43 @@
+{% include 'top.html' %}
+    <div class="content">
+        <h1 class="title">Filter Movies</h1>
+        <form class="Filter" method = "POST" action="{{url_for('filter_movies')}}">
+            Movie title: <input type="text" name="movie_title" value="None" placeholder="Movie Title">
+            <br/>
+            Release Year:
+            <select name="Comparator" id="compare">
+                <option value="greater than">greater than</option>
+                <option value="less than">less than</option>
+                <option value="greater than or equal to">greater than or equal to</option>
+                <option value="less than or equal to">less than or equal to</option>
+                <option value="equal to">equal to</option>
+              </select>
+             <input type="text" name="release_year" value="0" placeholder="0">
+            <br/>
+            <br/>  <br/>
+            <button class="flat" type="submit">Filter</button>
+            <br/>   <br/>
+        </form>
+            {% if movies | length > 0 %}
+                <table class="styled">
+                    <thead>
+                        <tr>
+                            <td>Movie ID</td>
+                            <td>Movie Name</td>
+                            <td>Movie Release Year</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instance in movies %}
+                            <tr class="clickable-tr" data-href="{{ url_for('single_movie', movie_id=instance.movie_id)}}">
+                                <td style="text-align: center">{{ instance.movie_id }}</td>
+                                <td>{{instance.movie_title}}</td>
+                                <td>{{instance.release_year}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            {% endif %}
+    </div>
+{% include 'bottom.html'%}

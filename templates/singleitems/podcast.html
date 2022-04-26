@@ -1,0 +1,132 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+        <!-- TODO Query (6)
+        Display All Relevant Podcast Infromation including meta data
+        Display All Relevant Podcast Episodes for this Podcast
+        -->
+          {% for key, value in info.items()%}
+
+        <h2 class="title"> {{value[0]}}</h2>
+          {% endfor %}
+        <hr/>
+          {% for key, value in info.items()%}
+        <h3> Artworks </h3>
+
+                <center><img src="{{value[3][2]}}" style="width: 30%;" alt="image"></center>
+                <center><br/>© Spotify Public Domain 2019.
+
+        {% endfor %}
+        <br/></center>
+
+        <h3> Podcast Details </h3>
+        <table class="styled" style="border: 2px solid black;">
+            <thead>
+                <tr>
+                  <td style="
+            	border: 1px groove black;">Podcast ID</td>
+                  <td style="
+            	border: 1px groove black;">Podcast Name</td>
+                  <td style="
+            	border: 1px groove black;">Podcast URI</td>
+                  <td style="
+            	border: 1px groove black;">Podcast Last Updated</td>
+                </tr>
+            </thead>
+            <tbody>
+              {% for key, value in info.items()%}
+                <!-- <th> {{ key }} </th> -->
+              <tr>
+                <th style="
+            	border: 1px groove black;"> {{ key }} </th>
+                <td style="
+            	border: 1px groove black;"> {{ value[0] }} </td>
+                <td style="
+            	border: 1px groove black;"> {{ value[1] }} </td>
+                <td style="
+            	border: 1px groove black;"> {{ value[2] }} </td>
+
+                  {% endfor %}
+                </tr>
+            </tbody>
+            </table>
+              {% for key, value in info.items()%}
+            <h3> Description </h3>
+            <div>
+              {{value[3][1]}}
+              </div>
+              {% endfor %}
+
+            {% for key, value in info.items()%}
+          <h3> Copyright Holder</h3>
+          <p> {{value[3][0]}} </p>
+
+            {% endfor %}
+
+        <!-- TODO - Query (10)
+        You will have to modify the above approach slightly to make each genre clickable
+        -->
+        {% if podcast | length > 0 %}
+        <h2 class="title"> {{podcast[0].podcast_title}}</h2>
+
+
+        <div>
+
+                <!-- Podcast Episodes -->
+                <h3>Episodes for this Podcast</h3>
+                <table class="styled" style="width:100%;	border: 2px solid black;">
+                    <thead>
+
+                      <tr>
+                            <td style="
+            	border: 1px groove black;">Podcast Episode Media ID</td>
+                            <td style="
+            	border: 1px groove black;">Podcast Episode Title</td>
+                            <td style="
+            	border: 1px groove black;">Podcast Episode URI</td>
+                            <td style="
+            	border: 1px groove black;">Podcast Episode Published Date</td>
+                            <td style="
+            	border: 1px groove black;">Podcast Episode Length</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for key, value in result.items()%}
+                        {% for instance in podcast %}
+                        <!-- <th> {{ key }} </th> -->
+                      <tr class="clickable-tr" data-href="{{ url_for('single_podcastep', media_id=key )}}">
+                        {% endfor %}
+                        <th style="
+            	border: 1px groove black;"> {{ key }} </th>
+                        <td style="
+            	border: 1px groove black;"> {{ value[0] }} </td>
+                        <td style="
+            	border: 1px groove black;"> {{ value[1] }} </td>
+                        <td style="
+            	border: 1px groove black;"> {{ value[2] }} </td>
+                        <td style="
+            	border: 1px groove black;"> {{ value[3] }} </td>
+                        {% endfor %}
+                      </tr>
+
+                        <!-- Add a for loop to iterate over the episodes -->
+                        {% for instance in podcasteps %}
+                        <tr class="clickable-tr" data-href="{{ url_for('single_podcastep', podcastep_id=instance.media_id)}}">
+                            <td style="text-align: center">{{ instance.media_id }}</td>
+                            <td>{{instance.podcast_episode_title}}</td>
+                            <td>{{instance.podcast_episode_URI}}</td>
+                            <td>{{instance.podcast_episode_published_date}}</td>
+                            <td>{{instance.podcast_episode_length}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+
+            </div>
+            {% else %}
+                <h2 class="title"> Invalid Song ID</h2>
+            {% endif %}
+    </div>
+</div>
+{% include 'bottom.html'%}

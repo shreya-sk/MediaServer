@@ -1,0 +1,42 @@
+{% include 'top.html' %}
+    <div class="content">
+        <h1 class="title">Filter Tvshows</h1>
+        <form class="Filter" method = "POST" action="{{url_for('filter_tvshows')}}">
+            Tvshow title: <input type="text" name="tvshows_title" value="" placeholder="Tvshow name">
+            <br/>
+            Air Year of 1st Episode (DD-MM-YYYY):
+            <select name="Comparator" id="compare">
+                <option value="greater than">greater than</option>
+                <option value="less than">less than</option>
+                <option value="greater than or equal to">greater than or equal to</option>
+                <option value="less than or equal to">less than or equal to</option>
+                <option value="equal to">equal to</option>
+              </select>
+            <input type="date" name="air_date" value="01/01/0000" placeholder="----">
+            <br/>
+            <br/>  <br/>
+            <button class="flat" type="submit">Filter</button>
+            <br/>   <br/>
+        </form>
+            {% if tvshows | length > 0 %}
+            <table class="styled">
+                <thead>
+                    <tr>
+                        <td>TV Show ID</td>
+                        <td>TV Show Name</td>
+                        <td>TV Show Episode Count</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for instance in tvshows %}
+                        <tr class="clickable-tr" data-href="{{ url_for('single_tvshow', tvshow_id=instance.tvshow_id)}}">
+                            <td style="text-align: center">{{ instance.tvshow_id }}</td>
+                            <td>{{instance.tvshow_title}}</td>
+                            <td>{{instance.count}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+    </div>
+{% include 'bottom.html'%}

@@ -1,0 +1,90 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+        <!-- TODO Query (7)
+        Display All Relevant Podcast Episode Infromation including meta data
+        -->
+        <!-- TODO - Query (10)
+        You will have to modify the above approach slightly to make each genre clickable
+        -->
+        {% if podcastep | length > 0 %}
+            <h2 class="title"> {{podcastep[0].podcast_episode_title}} published on {{podcastep[0].podcast_episode_published_date}} </h2>
+            <br/>
+
+
+            <h3> Artwork </h3>
+            {% for instance in podcastep %}
+                {% if instance.md_type_name == 'artwork' %}
+                    <center><img src="{{instance.md_value}}" style="width: 30%;" alt="image"></center>
+                      <center><br/>© Amazon Public Domain 2019.
+                {% endif %}
+            {% endfor %}
+            <br/></center>
+            <h3> Description </h3>
+            {% for instance in podcastep %}
+                {% if instance.md_type_name == 'description' %}
+                    <div>
+                        {{instance.md_value}}
+                    </div>
+                    <h3> Podcast Details </h3>
+                    <table class="styled" style="border: 2px solid black;">
+                        <thead>
+                            <tr>
+                              <td style="
+                          border: 1px groove black;">Podcast Episode ID</td>
+                              <td style="
+                          border: 1px groove black;">Podcast Title</td>
+                              <td style="
+                          border: 1px groove black;">Podcast URI</td>
+                              <td style="
+                          border: 1px groove black;">Podcast Date Published</td>
+                          <td style="
+                          border: 1px groove black;">Podcast length</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for instance in edited%}
+                            <!-- <th> {{ key }} </th> -->
+                          <tr>
+                            <th style="
+                          border: 1px groove black;"> {{ instance.media_id }} </th>
+                            <td style="
+                          border: 1px groove black;"> {{ instance.podcast_episode_title }} </td>
+                            <td style="
+                          border: 1px groove black;"> {{ instance.podcast_episode_uri }} </td>
+                            <td style="
+                          border: 1px groove black;"> {{ instance.podcast_episode_published_date }} </td>
+                          <td style="
+                          border: 1px groove black;"> {{ instance.podcast_episode_length }} </td>
+
+                              {% endfor %}
+                            </tr>
+                        </tbody>
+                        </table>
+                          <h3> Genres </h3>
+                        {% for instance in podcastep %}
+
+                            {% if instance.md_type_name == 'podcast genre' %}
+
+                        <table class="styled" style="border: 2px solid black;">
+                            <thead>
+                                  <tr class="clickable-tr" data-href="{{ url_for('single_genre', genre_id=instance.md_id )}}">
+                                <center> <td style="
+                              border: 1px groove black;">{{ instance.md_value}}</td></center>
+                                </tr>
+                            </thead>
+                            </table>
+                            {% endif %}
+                              {% endfor %}
+                            {% else %}
+
+                            <p> No Genres available for this Podcast Episode. </p>
+
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h2 class="title"> Invalid Podcast ID</h2>
+        {% endif %}
+    </div>
+</div>
+{% include 'bottom.html'%}
